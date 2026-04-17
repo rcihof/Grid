@@ -7,8 +7,8 @@ const fs = require('fs');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Data directory — /data on Render (persistent disk), ./data locally
-const DB_DIR = process.env.RENDER ? '/data' : path.join(__dirname, 'data');
+// Use /data if it already exists (Render persistent disk mounted), otherwise use local ./data
+const DB_DIR = fs.existsSync('/data') ? '/data' : path.join(__dirname, 'data');
 const DB_FILE = path.join(DB_DIR, 'assessments.json');
 
 if (!fs.existsSync(DB_DIR)) fs.mkdirSync(DB_DIR, { recursive: true });
